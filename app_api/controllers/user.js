@@ -129,7 +129,7 @@ var retrieveUser = function (req, res) {
         return utils.sendJSONResponse(res, 200, {msg: 'Successfully retrieved user', data: { user: searchedUser } });
     } else {
         // user not found
-        return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND",
+        return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND_ERROR",
             { 'userId': req.params.userId }) });
     }
 };
@@ -143,7 +143,7 @@ var modifyUser = function (req, res) {
     var users = readUsersFile(res);
 
     // find user by id
-    var searchedUser = users.filter(function(user) {
+    var searchedUser = users.find(function(user) {
         return user.id === req.params.userId;
     });
 
@@ -165,7 +165,7 @@ var modifyUser = function (req, res) {
         return utils.sendJSONResponse(res, 200, {msg: 'Successfully modified user', data: { user: searchedUser } });
     } else {
         // user not found
-        return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND",
+        return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND_ERROR",
             { 'userId': req.params.userId }) });
     }
 };
@@ -183,7 +183,7 @@ var deleteUser = function (req, res) {
         return user.id === req.params.userId;
     });
 
-    if (searchedUserIndex) {
+    if (searchedUserIndex != -1) {
         // remove user from list
         var deletedUser = users.splice(searchedUserIndex, 1);
 
@@ -194,7 +194,7 @@ var deleteUser = function (req, res) {
         return utils.sendJSONResponse(res, 200, {msg: 'Successfully deleted user', data: { user: deletedUser[0] } });
     } else {
         // user not found
-        return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND",
+        return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND_ERROR",
             { 'userId': req.params.userId }) });
     }
 };
