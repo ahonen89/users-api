@@ -130,7 +130,7 @@ describe('API tests', function () {
     describe('GET /api/users/:userId', function () {
         it('it should retrieve an user', function (done) {
             chai.request(server)
-                .get(retrieveUsersPath + '/' + users[0].id)
+                .get(retrieveUserPath + '/' + users[0].id)
                 .end(function (err, res) {
                     res.should.have.status(200);
                     res.body.data.user.id.should.equal(users[0].id);
@@ -144,7 +144,7 @@ describe('API tests', function () {
     describe('GET /api/users/:userId', function () {
         it('it should fail retrieving an unexisting user', function (done) {
             chai.request(server)
-                .get(retrieveUsersPath + '/unexisting_user_id')
+                .get(retrieveUserPath + '/unexisting_user_id')
                 .end(function (err, res) {
                     res.should.have.status(404);
                     res.body.error.code.should.equal(1003);
