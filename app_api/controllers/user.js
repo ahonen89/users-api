@@ -88,25 +88,25 @@ var createUser = function (req, res) {
 
     // create a new user
     var userCreatedAt = new Date();
-    users.push({
+    var newUser = {
         id: uuid.v1(),
         email: req.body.email,
         forename: req.body.forename,
         surname: req.body.surname || '',
         created: userCreatedAt.getTime()
-    });
+    };
+    users.push(newUser);
 
     // add new users list (containing new added user) to the storage
     writeUsersFile(res, users);
 
+    // when sending user as response, make 'created' field understandable
+    newUser.created = userCreatedAt.toISOString().slice(0, 19);
+
     // respond with success and newly created user
     utils.sendJSONResponse(res, 201, {msg: 'Successfully created user',
         data: {
-            user: {
-                email: req.body.email,
-                forename: req.body.forename,
-                created: userCreatedAt.toISOString().slice(0, 10)
-            }
+            user: newUser
         }
     });
 };
@@ -124,9 +124,9 @@ var retrieveUser = function (req, res) {
         return user.id === req.params.userId;
     });
 
-    if (searchedUser) {
+    if (searchedUser.length > 0) {
         // respond with user
-        return utils.sendJSONResponse(res, 200, {msg: 'Successfully retrieved user', data: { user: searchedUser } });
+        return utils.sendJSONResponse(res, 200, {msg: 'Successfully retrieved user', data: { user: searchedUser[0] } });
     } else {
         // user not found
         return utils.sendJSONResponse(res, 404, { error: errors.getError("USER_NOT_FOUND_ERROR",

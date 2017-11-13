@@ -28,8 +28,11 @@ var init = function() {
  * @param details Object
  * */
 var getError = function(errorName, messageTokens, details) {
-    // get error by making a copy of errors object
-    var error = JSON.parse(JSON.stringify(errors[errorName]));
+    var error = null;
+    if (errors[errorName]) {
+        // get error by making a copy of errors object
+        error = JSON.parse(JSON.stringify(errors[errorName]));
+    }
 
     if (!error) {
         // return with general SERVER_INTERNAL_ERROR

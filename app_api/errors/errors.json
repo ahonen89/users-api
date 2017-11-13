@@ -21,7 +21,7 @@
   },
   "USER_ALREADY_EXISTS": {
     "code": 1004,
-    "message": "User already exists with email address: '%email%",
+    "message": "User already exists with email address: '%email%'",
     "details": {}
   }
 }
